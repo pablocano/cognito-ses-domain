@@ -32,7 +32,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 });
 // Exclude examples from published package
 project.npmignore?.addPatterns('examples/');
-project.tsconfig?.addExclude("examples/**");
-project.tsconfigDev?.addExclude("examples/**");
+project.tsconfig?.addExclude('examples/**');
+project.tsconfigDev?.addExclude('examples/**');
 
 project.synth();
