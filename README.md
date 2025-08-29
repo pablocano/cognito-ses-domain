@@ -107,14 +107,18 @@ sendingLogs: {
 }
 ```
 
-## Example App
+## Example Apps
 
-An example CDK TypeScript app lives in `examples/typescript/` and demonstrates:
+TypeScript example: [`examples/typescript/`](./examples/typescript/)
+
+Python example: [`examples/python/`](./examples/python/) (install the generated Python dist after running `npx projen package`).
+
+The TypeScript example demonstrates:
 
 * Creating a User Pool & client
 * Using the construct with sending logs enabled and Identity Pool disabled by default
 
-It is intentionally outside projen management (ignored via `.projenrc.ts`) so you can add multiple examples without affecting the library build.
+Examples are intentionally outside projen management (ignored via `.projenrc.ts`) so you can add multiple examples without affecting the library build.
 
 Run the example (ensure you have a matching hosted zone and bootstrapped environment):
 

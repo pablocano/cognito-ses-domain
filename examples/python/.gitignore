@@ -1,0 +1,31 @@
+# Virtual environments
+.venv/
+venv/
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyi
+*.pytest_cache/
+.mypy_cache/
+
+# CDK
+cdk.out/
+cdk.context.json
+.context.json
+
+# Build artifacts
+*.egg-info/
+.dist/
+build/
+
+# Logs
+*.log
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/

@@ -12,14 +12,18 @@ const project = new awscdk.AwsCdkConstructLibrary({
   license: 'MIT',
   copyrightOwner: 'Merapar Technologies Group B.V.',
   deps: [
-    'ses-cloudwatch@^1.2.0',
+    'ses-cloudwatch@^1.2.1',
   ],
   peerDeps: [
-    'ses-cloudwatch@^1.2.0',
+    'ses-cloudwatch@^1.2.1',
   ],
   devDeps: [
-    'ses-cloudwatch@^1.2.0',
+    'ses-cloudwatch@^1.2.1',
   ],
+  python: {
+    module: 'cognito_ses_domain',
+    distName: 'cognito-ses-domain',
+  },
 
   publishToPypi: {
     distName: 'cognito-ses-domain',
