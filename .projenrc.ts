@@ -6,8 +6,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.8.0',
   name: 'cognito-ses-domain',
+  packageName: 'cognito-ses-domain',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/pablocano/cognito-ses-domain.git',
+  license: 'MIT',
+  copyrightOwner: 'Merapar Technologies Group B.V.',
   deps: [
     'ses-cloudwatch@^1.2.0',
   ],
@@ -17,9 +20,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
   devDeps: [
     'ses-cloudwatch@^1.2.0',
   ],
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
-  // packageName: undefined,  /* The "name" in package.json. */
 });
 // Exclude examples from published package
 project.npmignore?.addPatterns('examples/');
