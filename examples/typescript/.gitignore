@@ -1,0 +1,28 @@
+# Node / TypeScript
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# CDK synth outputs
+cdk.out/
+cdk.context.json
+
+# Local env & secrets
+.env
+.env.*
+
+# OS / Editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+.tmp/
+.cache/

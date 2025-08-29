@@ -21,4 +21,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
   // devDeps: [],             /* Build dependencies for this module. */
   // packageName: undefined,  /* The "name" in package.json. */
 });
+// Exclude examples from published package
+project.npmignore?.addPatterns('examples/');
 project.synth();

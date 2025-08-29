@@ -1,0 +1,20 @@
+{
+  "name": "cognito-ses-domain-example-typescript",
+  "private": true,
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "tsc",
+    "cdk": "cdk",
+    "deploy": "cdk deploy --app 'npx ts-node bin/app.ts'",
+    "synth": "cdk synth --app 'npx ts-node bin/app.ts'"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2",
+  "ts-node": "^10.9.2",
+  "aws-cdk": "^2.212.0"
+  },
+  "dependencies": {
+    "cognito-ses-domain": "file:../.."
+  }
+}
