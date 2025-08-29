@@ -107,6 +107,85 @@ sendingLogs: {
 }
 ```
 
+## Using the Verified Domain for Cognito Emails
+
+Once the domain is verified by this construct you can point a Cognito User Pool to send its emails (verification, password reset, MFA, etc.) through Amazon SES using that domain. This gives you higher deliverability and the ability to add a custom configuration set, reputation metrics, etc.
+
+Key points:
+
+* You only need the SES domain identity (the default behavior of this construct). Identity Pool / logging are optional.
+* Use a `fromEmail` that belongs to the verified domain (e.g. `noreply@your-verified-domain.com`). Ensure the mailbox exists or at least the domain has an MX/receiving setup if you expect replies.
+* Optionally pass `configurationSet` if you enabled `sendingLogs` and want Cognito-triggered emails to be included in those events.
+
+Example (TypeScript):
+
+```ts
+import { Stack } from 'aws-cdk-lib';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import { SesDomainIdentity } from 'cognito-ses-domain';
+
+export class AuthStack extends Stack {
+	constructor(scope: Construct, id: string) {
+		super(scope, id, { env: { account: '123456789012', region: 'us-east-1' } });
+
+		// Create / verify the SES domain identity
+		const domainIdentity = new SesDomainIdentity(this, 'SesDomain', {
+			domain: 'your-verified-domain.com',
+			userPool: new cognito.UserPool(this, 'PlaceholderPool'), // minimal user pool just to satisfy props (or pass existing)
+			userPoolClientId: 'dummy-client-id', // not used unless createIdentityPool: true
+			// createIdentityPool: false (default)
+		});
+
+		// Main user pool using SES for outbound email
+		const userPool = new cognito.UserPool(this, 'MyUserPool', {
+			email: cognito.UserPoolEmail.withSES({
+				fromEmail: 'noreply@your-verified-domain.com',
+				// Provide the verified domain (or omit if AWS infers from fromEmail); explicit is clearer:
+				sesVerifiedDomain: 'your-verified-domain.com',
+				// configurationSet: domainIdentity.sesCloudWatch?.configurationSet?.configurationSetName, // if you enabled sendingLogs
+			}),
+		});
+	}
+}
+```
+
+Python (analogous):
+
+```py
+from aws_cdk import Stack
+from aws_cdk import aws_cognito as cognito
+from constructs import Construct
+from cognito_ses_domain import SesDomainIdentity
+
+class AuthStack(Stack):
+		def __init__(self, scope: Construct, construct_id: str, **kwargs):
+				super().__init__(scope, construct_id, **kwargs)
+
+				domain_identity = SesDomainIdentity(
+						self,
+						"SesDomain",
+						domain="your-verified-domain.com",
+						user_pool=cognito.UserPool(self, "PlaceholderPool"),
+						user_pool_client_id="dummy-client-id",
+				)
+
+				cognito.UserPool(
+						self,
+						"MyUserPool",
+						email=cognito.UserPoolEmail.with_ses(
+								from_email="noreply@your-verified-domain.com",
+								ses_verified_domain="your-verified-domain.com",
+								# configuration_set=domain_identity.ses_cloud_watch.configuration_set.configuration_set_name if domain_identity.ses_cloud_watch else None,
+						),
+				)
+```
+
+Notes:
+* For production you normally create the User Pool first, then pass its real client ID into `SesDomainIdentity` if you also want an Identity Pool (or simply pass placeholders if not using that feature—future enhancement will relax required props when Identity Pool is disabled).
+* DKIM records are added automatically by SES when verifying the domain; SPF is generally covered by AWS's sending infrastructure, but consider adding a DMARC record for best practices.
+* Use a subdomain (e.g. `auth.example.com`) if you want to isolate sending reputation from your primary domain.
+* SES starts in the sandbox: you can only send to verified identities until you request production access. Open an AWS Support case (Service Limit Increase -> SES) and include expected sending region, use case, and compliance details before relying on this for end-user emails.
+
 ## Example Apps
 
 TypeScript example: [`examples/typescript/`](./examples/typescript/)
