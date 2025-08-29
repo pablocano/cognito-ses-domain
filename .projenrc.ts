@@ -20,7 +20,15 @@ const project = new awscdk.AwsCdkConstructLibrary({
   devDeps: [
     'ses-cloudwatch@^1.2.0',
   ],
+
+  publishToPypi: {
+    distName: 'cognito-ses-domain',
+    module: 'cognito_ses_domain',
+  },
 });
 // Exclude examples from published package
 project.npmignore?.addPatterns('examples/');
+project.tsconfig?.addExclude("examples/**");
+project.tsconfigDev?.addExclude("examples/**");
+
 project.synth();

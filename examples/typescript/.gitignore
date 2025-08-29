@@ -26,3 +26,6 @@ yarn-error.log*
 # Temporary files
 .tmp/
 .cache/
+
+# The example does not use projen. So commit the tsconfig.json
+!tsconfig.json

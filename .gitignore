@@ -50,4 +50,3 @@ junit.xml
 tsconfig.json
 !/API.md
 !/.projenrc.ts
-!/examples/typescript/tsconfig.json
